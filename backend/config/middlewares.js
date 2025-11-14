@@ -2,7 +2,7 @@ module.exports = [
   'strapi::logger',
   'strapi::errors',
   {
-    // Use the security middleware to explicitly configure CORS
+    // CONSOLIDATED BLOCK: This single block handles ALL security, including CORS and CSP.
     name: 'strapi::security',
     config: {
       contentSecurityPolicy: {
@@ -14,8 +14,7 @@ module.exports = [
             'data:',
             'blob:',
             'dl.airtable.com',
-            // Add your Vercel domain to image sources if needed for content loading
-            'https://ai-resume-builder-snowy-xi.vercel.app', 
+            'https://ai-resume-builder-snowy-xi.vercel.app', // Vercel for Images
           ],
           'media-src': [
             "'self'",
@@ -23,23 +22,20 @@ module.exports = [
             'blob:',
             'dl.airtable.com',
           ],
-          upgradeInsecureRequests: null, // Allow HTTP connections locally
+          upgradeInsecureRequests: null,
         },
+      },
+      // === CRITICAL FIX: CORS SETTINGS GO HERE ===
+      cors: {
+        enabled: true,
+        headers: '*',
+        origin: ['https://ai-resume-builder-snowy-xi.vercel.app', 'http://localhost:5173'], // Explicitly allow Vercel and local
+        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+        // credentials: true, // Enable this if using auth headers that require credentials
       },
     },
   },
-  {
-    // Configure CORS explicitly to allow your frontend domain
-    name: 'strapi::cors',
-    config: {
-      enabled: true,
-      headers: '*',
-      origin: ['https://ai-resume-builder-snowy-xi.vercel.app', 'http://localhost:5173'], // Add your Vercel URL here!
-      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-      // Credentials true is often required for auth tokens (Clerk integration)
-      // credentials: true, 
-    },
-  },
+  // 'strapi::cors', <--- REMOVED: CORS is now handled by strapi::security
   'strapi::poweredBy',
   'strapi::query',
   'strapi::body',
