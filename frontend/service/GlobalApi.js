@@ -1,13 +1,28 @@
 import axios from 'axios';
 
-// Ensure the API key is available
-const API_KEY = import.meta.env.VITE_STRAPI_API_KEY;
+// CRITICAL FIX: Use environment variables for the live API base URL.
+// The VITE_STRAPI_LIVE_API_URL should be set in Vercel to:
+// https://ai-resume-builder-7uxh.onrender.com/api/
+const LIVE_API_BASE_URL = import.meta.env.VITE_STRAPI_API_URL;
+const LOCAL_API_BASE_URL = 'http://localhost:1337/api/';
+
+// Determine the base URL: Use the live URL if it exists, otherwise fall back to local.
+// We append '/api/' if it's not already part of the environment variable value.
+const getBaseUrl = () => {
+    const baseURL = LIVE_API_BASE_URL || LOCAL_API_BASE_URL;
+    // Ensure the base URL ends with '/api/' for consistent routing
+    if (baseURL.endsWith('/')) {
+        return baseURL;
+    }
+    return `${baseURL}/api/`;
+};
 
 const axiosClient = axios.create({
-    baseURL: 'http://localhost:1337/api/',
+    baseURL: getBaseUrl(), // Use the dynamic URL here
     headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${API_KEY}`
+        // Assuming VITE_STRAPI_API_KEY holds your actual token value
+        'Authorization': `Bearer ${import.meta.env.VITE_STRAPI_API_KEY}`
     }
 });
 
