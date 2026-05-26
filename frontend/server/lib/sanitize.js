@@ -1,13 +1,15 @@
-import DOMPurify from 'isomorphic-dompurify';
+import sanitizeHtmlLib from 'sanitize-html';
 
 const HTML_CONFIG = {
-  ALLOWED_TAGS: ['p', 'ul', 'ol', 'li', 'b', 'i', 'strong', 'em', 'br', 'span'],
-  ALLOWED_ATTR: [],
+  // sanitize-html uses camelCase for config keys
+  allowedTags: ['p', 'ul', 'ol', 'li', 'b', 'i', 'strong', 'em', 'br', 'span'],
+  // This explicitly strips all attributes, matching your previous ALLOWED_ATTR: []
+  allowedAttributes: {}, 
 };
 
 export function sanitizeHtml(html) {
   if (!html || typeof html !== 'string') return '';
-  return DOMPurify.sanitize(html, HTML_CONFIG);
+  return sanitizeHtmlLib(html, HTML_CONFIG);
 }
 
 /** Sanitize resume payload fields before persisting to Strapi */
