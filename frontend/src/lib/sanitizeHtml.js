@@ -1,11 +1,11 @@
-import DOMPurify from 'isomorphic-dompurify';
+import sanitizeHtmlLib from 'sanitize-html';
 
 const HTML_CONFIG = {
-  ALLOWED_TAGS: ['p', 'ul', 'ol', 'li', 'b', 'i', 'strong', 'em', 'br', 'span'],
-  ALLOWED_ATTR: [],
+  allowedTags: ['p', 'ul', 'ol', 'li', 'b', 'i', 'strong', 'em', 'br', 'span'],
+  allowedAttributes: {},
 };
 
 export function sanitizeHtml(html) {
   if (!html || typeof html !== 'string') return '';
-  return DOMPurify.sanitize(html, HTML_CONFIG);
+  return sanitizeHtmlLib(html, HTML_CONFIG);
 }
