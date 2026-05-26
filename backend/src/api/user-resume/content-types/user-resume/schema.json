@@ -19,8 +19,15 @@
     "resumeId": {
       "type": "string"
     },
+    "clerkUserId": {
+      "type": "string"
+    },
     "userEmail": {
       "type": "email"
+    },
+    "isPublic": {
+      "type": "boolean",
+      "default": false
     },
     "userName": {
       "type": "string"
@@ -63,6 +70,10 @@
     },
     "themeColor": {
       "type": "string"
+    },
+    "templateId": {
+      "type": "string",
+      "default": "classic"
     }
   }
 }

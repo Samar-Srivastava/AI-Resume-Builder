@@ -29,13 +29,13 @@ module.exports = [
   },
 
   {
-    name: 'strapi::cors',   // REQUIRED IN STRAPI v4
+    name: 'strapi::cors',
     config: {
-      enabled: true,
       headers: '*',
       origin: [
         'https://ai-resume-builder-snowy-xi.vercel.app',
         'http://localhost:5173',
+        'http://localhost:1337',
       ],
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     },

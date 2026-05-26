@@ -7,6 +7,7 @@ import SignInPage from './auth/sign-in/index.jsx'
 import Home from './home/index.jsx'
 import Dashboard from './dashboard/index.jsx'
 import {ClerkProvider} from '@clerk/clerk-react'
+import AuthTokenProvider from './components/AuthTokenProvider.jsx'
 import EditResume from './dashboard/resume/[resumeId]/edit/index.jsx'
 import ViewResume from './my-resume/[resumeId]/view/index.jsx'
 
@@ -41,7 +42,9 @@ const router=createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
         <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-          <RouterProvider router={router}/>
+          <AuthTokenProvider>
+            <RouterProvider router={router}/>
+          </AuthTokenProvider>
         </ClerkProvider>
   </StrictMode>,
 )

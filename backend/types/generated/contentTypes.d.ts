@@ -376,7 +376,9 @@ export interface ApiUserResumeUserResume extends Schema.CollectionType {
   attributes: {
     title: Attribute.String & Attribute.Required;
     resumeId: Attribute.String;
+    clerkUserId: Attribute.String;
     userEmail: Attribute.Email;
+    isPublic: Attribute.Boolean & Attribute.DefaultTo<false>;
     userName: Attribute.String;
     firstName: Attribute.String;
     lastName: Attribute.String;
@@ -389,6 +391,7 @@ export interface ApiUserResumeUserResume extends Schema.CollectionType {
     education: Attribute.Component<'education.education', true>;
     skills: Attribute.Component<'skills.skills', true>;
     themeColor: Attribute.String;
+    templateId: Attribute.String & Attribute.DefaultTo<'classic'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

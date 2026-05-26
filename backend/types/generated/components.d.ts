@@ -12,23 +12,6 @@ export interface SkillsSkills extends Schema.Component {
   };
 }
 
-export interface EducationEducation extends Schema.Component {
-  collectionName: 'components_education_educations';
-  info: {
-    displayName: 'Education';
-    icon: 'file';
-    description: '';
-  };
-  attributes: {
-    universityName: Attribute.String;
-    degree: Attribute.String;
-    major: Attribute.String;
-    startDate: Attribute.String;
-    endDate: Attribute.String;
-    description: Attribute.String;
-  };
-}
-
 export interface ExperienceExperience extends Schema.Component {
   collectionName: 'components_experience_experiences';
   info: {
@@ -46,12 +29,29 @@ export interface ExperienceExperience extends Schema.Component {
   };
 }
 
+export interface EducationEducation extends Schema.Component {
+  collectionName: 'components_education_educations';
+  info: {
+    displayName: 'Education';
+    icon: 'file';
+    description: '';
+  };
+  attributes: {
+    universityName: Attribute.String;
+    degree: Attribute.String;
+    major: Attribute.String;
+    startDate: Attribute.String;
+    endDate: Attribute.String;
+    description: Attribute.String;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface Components {
       'skills.skills': SkillsSkills;
-      'education.education': EducationEducation;
       'experience.experience': ExperienceExperience;
+      'education.education': EducationEducation;
     }
   }
 }

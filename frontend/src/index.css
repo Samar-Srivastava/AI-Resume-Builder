@@ -2,19 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
-@media print{
-  #no-print{
-    display: none;
+/* Editor form sections (dark theme) */
+.resume-form-section {
+  @apply p-5 rounded-xl border border-slate-600 bg-slate-800/80 text-slate-200 shadow-lg border-t-4 border-t-cyan-500 mt-4;
+}
+.resume-form-section label {
+  @apply text-slate-300;
+}
+.resume-form-section h2 {
+  @apply text-white font-bold text-lg;
+}
+.resume-form-section p {
+  @apply text-slate-400 text-sm;
+}
+.resume-form-section input,
+.resume-form-section textarea {
+  @apply bg-slate-700 border-slate-600 text-white placeholder:text-slate-500;
+}
+
+@media print {
+  #no-print {
+    display: none !important;
   }
 
-  #print-area{
-    display: block;
+  #print-area {
+    display: block !important;
+    box-shadow: none !important;
+    margin: 0 auto !important;
+    max-width: 100% !important;
   }
-  
-  body{
+
+  body {
     margin: 0;
     padding: 0;
-    box-shadow: none;
+    background: white !important;
   }
 }
 

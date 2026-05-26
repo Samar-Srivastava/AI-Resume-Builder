@@ -1,31 +1,14 @@
-import { ResumeInfoContext } from '@/context/ResumeInfoContext'
-import React, { useContext } from 'react'
-import PersonalDetailPreview from './preview/PersonalDetailPreview'
-import SummeryPreview from './preview/SummeryPreview'
-import ExperiencePreview from './preview/ExperiencePreview'
-import EducationalPreview from './preview/EducationalPreview'
-import SkillsPreview from './preview/SkillsPreview'
+import { ResumeInfoContext } from '@/context/ResumeInfoContext';
+import { DEFAULT_TEMPLATE_ID } from '@/lib/resumeTemplates';
+import React, { useContext } from 'react';
+import { getResumeLayout } from './templates';
 
 function ResumePreview() {
-    const{resumeInfo,setResumeInfo}=useContext(ResumeInfoContext)
-  return (
-    <div className='shadow-lg h-full p-14 border-t-[20px] text-black'
-    style={{
-        borderColor:resumeInfo?.themeColor
-    }}>
-        {/* Personal Details */}
-        <PersonalDetailPreview resumeInfo={resumeInfo}/>
-        {/* Summary */}
-        <SummeryPreview resumeInfo={resumeInfo}/>
-        {/* Professional Experience  */}
-        <ExperiencePreview resumeInfo={resumeInfo}/>
-        {/* Educational  */}
-        <EducationalPreview resumeInfo={resumeInfo}/>
-        {/* Skills  */}
-        <SkillsPreview resumeInfo={resumeInfo}/>
-        
-    </div>
-  )
+  const { resumeInfo } = useContext(ResumeInfoContext);
+  const templateId = resumeInfo?.templateId || DEFAULT_TEMPLATE_ID;
+  const Layout = getResumeLayout(templateId);
+
+  return <Layout resumeInfo={resumeInfo} />;
 }
 
-export default ResumePreview
+export default ResumePreview;

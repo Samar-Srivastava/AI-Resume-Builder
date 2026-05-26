@@ -99,19 +99,19 @@ You must have the following installed:
     ```
 
 3.  **Configure Environment Variables:**
-    Create a `.env.local` file in the client root directory and populate it with your API keys and endpoints:
+    Create `frontend/.env.local` (see `frontend/.env.example`). **API keys for Strapi and Gemini must stay on the server**, not in the Vite bundle:
 
     ```env
-    # Clerk Authentication
     VITE_CLERK_PUBLISHABLE_KEY=<YOUR_CLERK_PUBLISHABLE_KEY>
+    VITE_BASE_URL=http://localhost:5173
 
-    # Strapi API Connection (Use your local or deployed Strapi URL)
-    VITE_STRAPI_BASE_URL=http://localhost:1337
-    VITE_STRAPI_API_KEY=<YOUR_STRAPI_FULL_ACCESS_TOKEN>
-
-    # Gemini AI Integration
-    VITE_GOOGLE_AI_API_KEY=<YOUR_GEMINI_API_KEY>
+    CLERK_SECRET_KEY=<YOUR_CLERK_SECRET_KEY>
+    STRAPI_API_URL=http://localhost:1337
+    STRAPI_API_TOKEN=<YOUR_STRAPI_API_TOKEN>
+    GOOGLE_AI_API_KEY=<YOUR_GEMINI_API_KEY>
     ```
+
+    See [docs/SECURITY_SETUP.md](docs/SECURITY_SETUP.md) for deployment and Strapi permission notes.
 
 4.  **Start the Development Server:**
     ```bash

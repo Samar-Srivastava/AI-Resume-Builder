@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import FormSection from '../../components/FormSection';
 import ResumePreview from '../../components/ResumePreview';
+import AtsPanel from '../../components/AtsPanel';
 import { ResumeInfoContext } from '@/context/ResumeInfoContext';
 import GlobalApi from './../../../../../service/GlobalApi';
 import { Loader2 } from 'lucide-react'; // Import a loading icon
@@ -20,21 +21,17 @@ function EditResume() {
         setLoading(true);
         GlobalApi.GetResumeByResumeId(resumeId)
             .then(resp => {
-                const dataArray = resp.data.data;
+                const record = resp.data?.data;
+                const attrs = record?.attributes;
 
-                if (Array.isArray(dataArray)) {
-                    // Find the matching resume object
-                    const fetchedResume = dataArray.find(resume => resume.attributes.resumeId === resumeId);
-                    
-                    if (fetchedResume) {
-                        // Extract the attributes (the actual data payload)
-                        setResumeInfo(fetchedResume.attributes);
-                        toast.success("Resume data loaded successfully.");
-                    } else {
-                        toast.error("Error: Resume not found.");
-                    }
+                if (attrs) {
+                    setResumeInfo({
+                        ...attrs,
+                        templateId: attrs.templateId || 'classic',
+                    });
+                    toast.success("Resume data loaded successfully.");
                 } else {
-                    toast.error("Error: Received invalid data format.");
+                    toast.error("Error: Resume not found.");
                 }
             })
             .catch(error => {
@@ -68,8 +65,8 @@ function EditResume() {
 
     return (
         <ResumeInfoContext.Provider value={{ resumeInfo, setResumeInfo }}>
-            <div className='min-h-screen bg-slate-950 p-4 md:p-8 lg:p-10'>
-                <h1 className='text-4xl font-extrabold text-white mb-6 mt-10'>
+            <div className='min-h-screen bg-slate-950 p-4 md:p-8 lg:p-10 pt-24'>
+                <h1 className='text-3xl md:text-4xl font-extrabold text-white mb-6'>
                     Editing: <span className='text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-500'>
                         {resumeInfo?.title || 'Untitled Resume'}
                     </span>
@@ -78,27 +75,20 @@ function EditResume() {
                 <div className='grid grid-cols-1 lg:grid-cols-5 gap-8'>
                     
                     {/* --- 📝 Form Section (3/5 width on large screens) --- */}
-                    <div className='lg:col-span-3 bg-neutral-100 p-6 rounded-xl shadow-2xl border border-neutral-300'>
-                        <h2 className='text-2xl font-bold text-gray-900 mb-6 border-b border-gray-300 pb-3'>
-                            Resume Builder Form
-                        </h2>
-
+                    <div className='lg:col-span-3 bg-slate-900/80 p-6 rounded-xl shadow-2xl border border-slate-700'>
                         <FormSection />
                     </div>
-                        
-    
 
-                    {/* --- 👁️ Preview Section (2/5 width on large screens) --- */}
                     <div className='lg:col-span-2 relative'>
-                        {/* Sticky Preview for better interaction */}
-                        <div className='lg:sticky lg:top-4 bg-neutral-100 p-4 rounded-xl shadow-2xl border border-neutral-300'>
-                            <h2 className='text-2xl font-bold text-gray-900 mb-6 border-b border-gray-300 pb-3'>
+                        <div className='lg:sticky lg:top-24 bg-slate-900/80 p-4 rounded-xl shadow-2xl border border-slate-700'>
+                            <h2 className='text-lg font-bold text-white mb-4 pb-2 border-b border-slate-700'>
                                 Live Preview
                             </h2>
                             {/* The ResumePreview component should display the resume document on a white/light canvas */}
                             <div className='bg-white shadow-xl rounded-lg overflow-hidden min-h-[500px]'>
                                 <ResumePreview />
                             </div>
+                            <AtsPanel />
                         </div>
                     </div>
                 </div>

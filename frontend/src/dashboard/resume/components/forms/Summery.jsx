@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom'
 import GlobalApi from './../../../../../service/GlobalApi'
 import { Brain, LoaderCircle } from 'lucide-react'
 import { toast } from 'sonner'
-import { AIChatSession } from './../../../../../service/AIModal'
+import { generateWithAI } from './../../../../../service/AIModal'
 
 const prompt="Job Title: {jobTitle} , Depends on job title give me list of  summery for 3 experience level, Mid Level and Freasher level in 3 -4 lines in array format, With summery and experience_level Field in JSON Format"
 function Summery({enabledNext}) {
@@ -24,14 +24,20 @@ function Summery({enabledNext}) {
     },[summery])
 
     const GenerateSummaryFromAI=async()=>{
+        if(!resumeInfo?.jobTitle){
+            toast.error('Add a job title in Personal Details first');
+            return;
+        }
         setLoading(true);
-        const PROMPT=prompt.replace('{jobTitle}',resumeInfo?.jobTitle);
-        console.log(PROMPT);
-        const result=await AIChatSession.sendMessage(PROMPT);
-        console.log(JSON.parse(result.response.text()));
-        setAiGenerateSummeryList(JSON.parse(result.response.text()))
-        setLoading(false);
-
+        try {
+            const PROMPT=prompt.replace('{jobTitle}',resumeInfo?.jobTitle);
+            const text=await generateWithAI(PROMPT);
+            setAiGenerateSummeryList(JSON.parse(text));
+        } catch {
+            toast.error('AI generation failed. Try again.');
+        } finally {
+            setLoading(false);
+        }
     }
 
     const onSave=(e)=>{
@@ -53,7 +59,7 @@ function Summery({enabledNext}) {
     }
   return (
     <div>
-    <div className='p-5 shadow-lg rounded-lg border-t-primary border-t-4 mt-10'>
+    <div className='resume-form-section'>
         <h2 className='font-bold text-lg'>Summery</h2>
         <p>Add Summery for your job title</p>
         
