@@ -43,7 +43,7 @@ export async function strapiRequest(path, options = {}) {
 export async function findResumeByResumeId(resumeId, populate = true) {
   const populateQuery = populate ? '&populate=*' : '';
   const data = await strapiRequest(
-    `/user-resumes?filters[resumeId][$eq]=${encodeURIComponent(resumeId)}${populateQuery}`
+    `/user-resumes?filters[resumeId][$eq]=${encodeURIComponent(resumeId)}${populateQuery}&publicationState=preview`
   );
   return data?.data?.[0] ?? null;
 }
@@ -51,6 +51,7 @@ export async function findResumeByResumeId(resumeId, populate = true) {
 export async function listResumesForUser(clerkUserId, userEmail) {
   const params = new URLSearchParams();
   params.set('populate', '*');
+  params.set('publicationState', 'preview');
   params.set('filters[$or][0][clerkUserId][$eq]', clerkUserId);
   if (userEmail) {
     params.set('filters[$or][1][userEmail][$eq]', userEmail);

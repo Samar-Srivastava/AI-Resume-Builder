@@ -1,17 +1,5 @@
 import type { Schema, Attribute } from '@strapi/strapi';
 
-export interface SkillsSkills extends Schema.Component {
-  collectionName: 'components_skills_skills';
-  info: {
-    displayName: 'Skills';
-    icon: 'bulletList';
-  };
-  attributes: {
-    name: Attribute.String;
-    rating: Attribute.Integer;
-  };
-}
-
 export interface ExperienceExperience extends Schema.Component {
   collectionName: 'components_experience_experiences';
   info: {
@@ -26,6 +14,18 @@ export interface ExperienceExperience extends Schema.Component {
     startDate: Attribute.String;
     endDate: Attribute.String;
     workSummery: Attribute.RichText;
+  };
+}
+
+export interface SkillsSkills extends Schema.Component {
+  collectionName: 'components_skills_skills';
+  info: {
+    displayName: 'Skills';
+    icon: 'bulletList';
+  };
+  attributes: {
+    name: Attribute.String;
+    rating: Attribute.Integer;
   };
 }
 
@@ -49,8 +49,8 @@ export interface EducationEducation extends Schema.Component {
 declare module '@strapi/types' {
   export module Shared {
     export interface Components {
-      'skills.skills': SkillsSkills;
       'experience.experience': ExperienceExperience;
+      'skills.skills': SkillsSkills;
       'education.education': EducationEducation;
     }
   }
