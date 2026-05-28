@@ -84,13 +84,13 @@ function Summery({enabledNext}) {
         </form>
             </div>
         {aiGeneratedSummeryList&&<div className='my-5'>
-            <h2 className='font-bold text-lg'>Suggestions</h2>
-            {aiGeneratedSummeryList.map((item,index)=>(
+            <h2 className='font-bold text-lg text-white'>Suggestions</h2>
+            {aiGeneratedSummeryList.map((item, index) => (
                 <div key={index}
-                onClick={()=>setSummery(item?.summary)}
-                className='p-5 shadow-lg my-4 rounded-lg cursor-pointer'> 
-                    <h2 className='font-bold my-1'>Level:{item?.experience_level}</h2>
-                    <p>{item?.summary}</p>
+                onClick={() => setSummery(item?.summary)}
+                className='p-5 shadow-lg my-4 rounded-lg cursor-pointer bg-white text-gray-900'> 
+                    <h2 className='font-bold my-1'>Level: {item?.experience_level}</h2>
+                    <p className='text-gray-700'>{item?.summary}</p>
                 </div>
             ))}
             </div>}
